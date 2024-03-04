@@ -1,5 +1,6 @@
 package 数据结构.Tree;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -37,6 +38,7 @@ public class TrieTree
             condenseTree(word, node);
         }
     }
+
     private void condenseTree(CharSequence word, TrieNode current)
     {
         for(int i = word.length() - 1; i >= 0; i--)
@@ -75,7 +77,15 @@ public class TrieTree
         return current;
     }
 
-    public void postWords(TrieNode current, final String prefix, final List<String> result)
+    public List<String> postWords(TrieNode current, CharSequence prefix)
+    {
+        prefix = new StringBuilder(prefix);
+        List<String> result = new ArrayList<>();
+        postWords(current, (StringBuilder)prefix, result);
+        return result;
+    }
+    
+    private void postWords(TrieNode current, final String prefix, final List<String> result)
     {
         if(current.isEndOfWord){
             result.add(prefix);
@@ -88,19 +98,19 @@ public class TrieTree
         });
     }
 
-    public void postWords(TrieNode current, final StringBuilder prefix, final List<String> result)
+    private void postWords(TrieNode current, final StringBuilder prefix, final List<String> result)
     {
         if(current.isEndOfWord){
             result.add(prefix.toString());
         }
         current.children.forEach(new BiConsumer<Character, TrieNode>() {
 			@Override
-			public void accept(Character ch, TrieNode node) {
-				prefix.append(ch);
-				postWords(node, prefix, result);
-				prefix.deleteCharAt(prefix.length() - 1);
-			}
-		});
+            public void accept(Character ch, TrieNode node) {
+                prefix.append(ch);
+                postWords(node, prefix, result);
+                prefix.deleteCharAt(prefix.length() - 1);
+            }
+        });
     }
 }
 
