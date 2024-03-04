@@ -104,7 +104,7 @@ public class TrieTree
             result.add(prefix.toString());
         }
         current.children.forEach(new BiConsumer<Character, TrieNode>() {
-			@Override
+            @Override
             public void accept(Character ch, TrieNode node) {
                 prefix.append(ch);
                 postWords(node, prefix, result);
